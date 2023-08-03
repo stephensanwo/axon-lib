@@ -22,10 +22,6 @@ type SessionManager struct {
 	AwsSession *aws_session.Session
 }
 
-// type Session struct {
-// 	SessionId   string
-// 	SessionData axon_types.UserCache
-// }
 
 func (s SessionManager) CreateSession(w http.ResponseWriter, a *axon_types.AxonContext, sessionData *axon_types.Session) {
 	// Create the DynamoDB client
