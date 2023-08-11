@@ -41,7 +41,7 @@ func (u * User)CreateUser(a *axon_types.AxonContext, token *oauth2.Token) (*axon
 
 	// Query the DynamoDB table for the user using the email from the Auth Client Response
 	email := *github_user.Email
-	result, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("USER#%s",email), &email)
+	result, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("USER#%s",email), &email)
 	
 	if err != nil {
 		return nil, errors.New("could not authenticate user - " + err.Error())
@@ -62,7 +62,7 @@ func (u * User)CreateUser(a *axon_types.AxonContext, token *oauth2.Token) (*axon
 			Avatar:    *github_user.AvatarURL,
 		}
 
-		err = db.MutateDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("USER#%s", user.Email), user.Email, &user)
+		err = db.MutateDatabase(axon_types.AXON_TABLE, fmt.Sprintf("USER#%s", user.Email), user.Email, &user)
 
 		if err != nil {
 			return nil, err
@@ -82,7 +82,7 @@ func (u *User) GetAuthenticatedUserData(a *axon_types.AxonContext) (axon_types.S
 	}
 
 	// Find user session in the cache
-	result, err := db.QueryDatabase(axon_coredb.AXON_USER_SESSION_TABLE, fmt.Sprintf("SESSION#%s", a.SessionId), &a.SessionId)
+	result, err := db.QueryDatabase(axon_types.AXON_USER_SESSION_TABLE, fmt.Sprintf("SESSION#%s", a.SessionId), &a.SessionId)
 
 	if err != nil {
 		return userSession, errors.New("Error fetching user session" + err.Error())

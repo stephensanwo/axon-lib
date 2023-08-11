@@ -1,4 +1,4 @@
-package coredb
+package types
 
 const (
 	AXON_TABLE				   string = "axon"	

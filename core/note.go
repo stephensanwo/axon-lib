@@ -30,21 +30,21 @@ func (n *Note) GetNoteDetail(a *axon_types.AxonContext, folder_id string, note_i
 	}
 
 	// Fetch the Note
-	noteResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), &note_id)
+	noteResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), &note_id)
 
 	if err != nil {
 		return nil, errors.New("could not fetch note - " + err.Error())
 	}
 
 	// Fetch Nodes and Edges
-	nodeResult, err := db.QueryDatabasePartition(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", n.Session.SessionData.User.Email, folder_id, note_id))
+	nodeResult, err := db.QueryDatabasePartition(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", n.Session.SessionData.User.Email, folder_id, note_id))
 
 	if err != nil {
 		return nil, errors.New("could not fetch node details - " + err.Error())
 	}
 
 
-	edgeResult, err := db.QueryDatabasePartition(axon_coredb.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", n.Session.SessionData.User.Email, folder_id, note_id))
+	edgeResult, err := db.QueryDatabasePartition(axon_types.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", n.Session.SessionData.User.Email, folder_id, note_id))
 
 	if err != nil {
 		return nil, errors.New("could not fetch edge details - " + err.Error())
@@ -88,7 +88,7 @@ func (n *Note) GetNotes(a *axon_types.AxonContext, folder_id string) (*[]axon_ty
 	}
 
 	// Fetch the Note
-	notesResult, err := db.QueryDatabasePartition(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id))
+	notesResult, err := db.QueryDatabasePartition(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id))
 
 	if err != nil {
 		return nil, errors.New("could not fetch notes - " + err.Error())
@@ -125,7 +125,7 @@ func (n *Note) CreateNote(a *axon_types.AxonContext, note_name string, descripti
 	}
 
 	// Add note to Database
-	err = db.MutateDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), note.NoteID, note)
+	err = db.MutateDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), note.NoteID, note)
 
 	if err != nil {
 		return nil, errors.New("could not create note - " + err.Error())
@@ -143,7 +143,7 @@ func (n *Note) FindNote(a *axon_types.AxonContext, folder_id string, note_id str
 	}
 
 	// Fetch the Note
-	noteResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), &note_id)
+	noteResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), &note_id)
 
 	var note axon_types.Note
 
@@ -163,7 +163,7 @@ func (n *Note) DeleteNote(a *axon_types.AxonContext, folder_id string, note_id s
 		return nil, errors.New("could not delete note - " + err.Error())
 	}
 	
-	err = db.DeleteRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), &note_id)
+	err = db.DeleteRecord(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), &note_id)
 
 	if err != nil {
 		return nil, errors.New("could not delete note or note does not exist - " + err.Error())
@@ -199,7 +199,7 @@ func (n *Note) UpdateNote(a *axon_types.AxonContext, name *string, description *
 		S: jsii.String(time.Now().Format(time.RFC3339)),
 	}
 
-	err = db.UpdateRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), note_id, updatedAttributes)
+	err = db.UpdateRecord(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", n.Session.SessionData.User.Email, folder_id), note_id, updatedAttributes)
 
 
 	return &note_id, err

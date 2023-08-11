@@ -30,7 +30,7 @@ func (e *Edge) GetEdges(a *axon_types.AxonContext, folder_id string, note_id str
 
 	var edges []axon_types.Edge
 
-	nodeResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), nil)
+	nodeResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), nil)
 
 	if err != nil {
 		return nil, errors.New("could not fetch edges - " + err.Error())
@@ -56,7 +56,7 @@ func (e *Edge) CreateEdge(a *axon_types.AxonContext, source_id string, target_id
 	// Confirm that note exists
 	var note axon_types.Note
 
-	noteResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", e.Session.SessionData.User.Email, folder_id), &note_id)
+	noteResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", e.Session.SessionData.User.Email, folder_id), &note_id)
 
 	if noteResult.Item == nil || err != nil {
 		return nil, errors.New("could not fetch note data - " + err.Error())
@@ -84,7 +84,7 @@ func (e *Edge) CreateEdge(a *axon_types.AxonContext, source_id string, target_id
 	}
 
 	// Add edge to Database
-	err = db.MutateDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note.NoteID), edge.EdgeID, edge)
+	err = db.MutateDatabase(axon_types.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note.NoteID), edge.EdgeID, edge)
 
 	if err != nil {
 		return nil, errors.New("could not create edge - " + err.Error())
@@ -103,7 +103,7 @@ func (e *Edge) FindEdge(a *axon_types.AxonContext, folder_id string, note_id str
 	}
 
 	// Fetch the Edge
-	edgeResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), &edge_id)
+	edgeResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), &edge_id)
 
 	var edge axon_types.Edge
 
@@ -123,7 +123,7 @@ func (e *Edge) DeleteEdge(a *axon_types.AxonContext, folder_id string, note_id s
 		return nil, errors.New("could not delete edge - " + err.Error())
 	}
 
-	err = db.DeleteRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), &edge_id)
+	err = db.DeleteRecord(axon_types.AXON_TABLE, fmt.Sprintf("EDGE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), &edge_id)
 
 	if err != nil {
 		return nil, errors.New("could not delete edge or edge does not exist - " + err.Error())
@@ -171,7 +171,7 @@ func (e *Edge) UpdateEdge(a *axon_types.AxonContext, source_id string, target_id
 		S: jsii.String(time.Now().Format(time.RFC3339)),
 	}
 
-	err = db.UpdateRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), edge_id, updatedAttributes)
+	err = db.UpdateRecord(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", e.Session.SessionData.User.Email, folder_id, note_id), edge_id, updatedAttributes)
 
 	return &edge_id, err
 

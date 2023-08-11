@@ -36,7 +36,7 @@ func (s SessionManager) CreateSession(w http.ResponseWriter, a *axon_types.AxonC
 	http.SetCookie(w, &cookie)
 
 	// Cache Session Data
-	err = db.CacheData(axon_coredb.AXON_USER_SESSION_TABLE, fmt.Sprintf("SESSION#%s", s.SessionId), s.SessionId, sessionData, 12 * 60 * 60)
+	err = db.CacheData(axon_types.AXON_USER_SESSION_TABLE, fmt.Sprintf("SESSION#%s", s.SessionId), s.SessionId, sessionData, 12 * 60 * 60)
 
 	if err != nil {
 		log.Panicln("Error saving session in cache")

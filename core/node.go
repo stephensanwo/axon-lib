@@ -30,7 +30,7 @@ func (no *Node) GetNodes(a *axon_types.AxonContext, folder_id string, note_id st
 
 	var nodes []axon_types.Node
 
-	nodeResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), nil)
+	nodeResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), nil)
 
 	if err != nil {
 		return nil, errors.New("could not fetch nodes - " + err.Error())
@@ -56,7 +56,7 @@ func (no *Node) CreateNode(a *axon_types.AxonContext, userNodeData axon_types.No
 	// Confirm that note exists
 	var note axon_types.Note 
 
-	noteResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", no.Session.SessionData.User.Email, folder_id), &note_id)
+	noteResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", no.Session.SessionData.User.Email, folder_id), &note_id)
 
 	if noteResult.Item == nil || err != nil {
 		return nil, errors.New("could not fetch note data - " + err.Error())
@@ -87,7 +87,7 @@ func (no *Node) CreateNode(a *axon_types.AxonContext, userNodeData axon_types.No
 	}
 
 	// Add node to Database
-	err = db.MutateDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note.NoteID), node.NodeID, node)
+	err = db.MutateDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note.NoteID), node.NodeID, node)
 
 	if err != nil {
 		return nil, errors.New("could not create node - " + err.Error())
@@ -106,7 +106,7 @@ func (no *Node) FindNode(a *axon_types.AxonContext, folder_id string, note_id st
 	}
 	
 	// Fetch the Node
-	nodeResult, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), &node_id)
+	nodeResult, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), &node_id)
 
 	var node axon_types.Node
 
@@ -126,7 +126,7 @@ func (no *Node) DeleteNode(a *axon_types.AxonContext, folder_id string, note_id 
 		return nil, errors.New("could not delete node - " + err.Error())
 	}
 
-	err = db.DeleteRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), &node_id)
+	err = db.DeleteRecord(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), &node_id)
 
 	if err != nil {
 		return nil, errors.New("could not delete node or node does not exist - " + err.Error())
@@ -213,7 +213,7 @@ func (no *Node) UpdateNode(a *axon_types.AxonContext, userNodeData axon_types.No
 		S: jsii.String(time.Now().Format(time.RFC3339)),
 	}
 
-	err = db.UpdateRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), node_id, updatedAttributes)
+	err = db.UpdateRecord(axon_types.AXON_TABLE, fmt.Sprintf("NODE#%s#%s#%s", no.Session.SessionData.User.Email, folder_id, note_id), node_id, updatedAttributes)
 
 	return &node_id, err
 

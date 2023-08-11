@@ -29,7 +29,7 @@ func (f *Folder) GetFolderList(a *axon_types.AxonContext) (*[]axon_types.FolderL
 	
 	var folders []axon_types.Folder
 
-	result, err := db.QueryDatabasePartition(axon_coredb.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email))
+	result, err := db.QueryDatabasePartition(axon_types.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email))
 	if err != nil {
 		return nil, errors.New("could not fetch folders - " + err.Error())
 	}
@@ -54,7 +54,7 @@ func (f *Folder) GetFolderList(a *axon_types.AxonContext) (*[]axon_types.FolderL
 			folderList.LastEdited = item.LastEdited
 
 			note := []axon_types.Note{}
-			result, _ := db.QueryDatabasePartition(axon_coredb.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", f.Session.SessionData.User.Email, item.FolderID))
+			result, _ := db.QueryDatabasePartition(axon_types.AXON_TABLE, fmt.Sprintf("NOTE#%s#%s", f.Session.SessionData.User.Email, item.FolderID))
 			
 			// Unmarshal the DynamoDB item into a Note struct
 			dynamodbattribute.UnmarshalListOfMaps(result.Items, &note)
@@ -81,7 +81,7 @@ func (f *Folder) GetFolders(a *axon_types.AxonContext) (*[]axon_types.Folder, er
 	
 	var folder []axon_types.Folder
 
-	result, err := db.QueryDatabasePartition(axon_coredb.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email))
+	result, err := db.QueryDatabasePartition(axon_types.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email))
 
 	// Unmarshal the DynamoDB item into a Note struct
 	dynamodbattribute.UnmarshalListOfMaps(result.Items, &folder)
@@ -111,7 +111,7 @@ func (f *Folder) CreateFolder(a *axon_types.AxonContext, folder_name string) (*s
 	}
 
 	// Add folder to database
-	err = db.MutateDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), folder.FolderID, folder)
+	err = db.MutateDatabase(axon_types.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), folder.FolderID, folder)
 
 	if err != nil {
 		return nil, errors.New("could not create folder - " + err.Error())
@@ -129,7 +129,7 @@ func (f *Folder) FindFolder(a *axon_types.AxonContext, folder_id string) (*axon_
 		return nil, errors.New("could not find folder - " + err.Error())
 	}
 
-	result, err := db.QueryDatabase(axon_coredb.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), &folder_id)
+	result, err := db.QueryDatabase(axon_types.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), &folder_id)
 
 	if err != nil {
 		return nil, errors.New("could not find folder - " + err.Error())
@@ -151,7 +151,7 @@ func (f *Folder) DeleteFolder(a *axon_types.AxonContext, folder_id string) (*str
 		return nil, errors.New("could not delete folder - " + err.Error())
 	}
 
-	err = db.DeleteRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), &folder_id)
+	err = db.DeleteRecord(axon_types.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), &folder_id)
 
 	if err != nil {
 		return nil, errors.New("could not delete folder or folder does not exist - " + err.Error())
@@ -177,7 +177,7 @@ func (f *Folder) UpdateFolder(a *axon_types.AxonContext, folder_name string, fol
 		FolderName: folder_name,
 	}
 
-	err = db.UpdateRecord(axon_coredb.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), folder_id, attributes)
+	err = db.UpdateRecord(axon_types.AXON_TABLE, fmt.Sprintf("FOLDER#%s", f.Session.SessionData.User.Email), folder_id, attributes)
 
 	if err != nil {
 		return nil, errors.New("could not update folder or folder does not exist - " + err.Error())

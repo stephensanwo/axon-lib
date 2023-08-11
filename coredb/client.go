@@ -17,10 +17,6 @@ type DB struct{
 
 // CreateDynamoDBClient creates a new DynamoDB client and session
 func NewDb(s *session.Session) (*DB, error) {
-	// // Create a new AWS session with the default credentials
-	// sess := session.Must(session.NewSessionWithOptions(session.Options{
-	// 	SharedConfigState: session.SharedConfigEnable,
-	// }))
 
 	// Create a DynamoDB client
 	db := &DB{
