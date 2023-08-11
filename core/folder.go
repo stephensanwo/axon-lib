@@ -15,7 +15,7 @@ import (
 
 type Folder struct {
 	Session axon_types.Session
-	AwsSession *aws_session.Session
+	AwsSession aws_session.Session
 }
 
 

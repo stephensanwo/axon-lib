@@ -17,7 +17,7 @@ import (
 
 type Note struct {
 	Session axon_types.Session
-		AwsSession *aws_session.Session
+		AwsSession aws_session.Session
 }
 
 // Gets the note data by ID and all the nodes and edges associated with it

@@ -17,7 +17,7 @@ import (
 
 type Edge struct {
 	Session axon_types.Session
-	AwsSession *aws_session.Session
+	AwsSession aws_session.Session
 }
 
 func (e *Edge) GetEdges(a *axon_types.AxonContext, folder_id string, note_id string) (*[]axon_types.Edge, error) {

@@ -19,7 +19,7 @@ import (
 type SessionManager struct {
 	CookieName string
 	SessionId  string
-	AwsSession *aws_session.Session
+	AwsSession aws_session.Session
 }
 
 

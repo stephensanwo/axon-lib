@@ -16,11 +16,11 @@ type DB struct{
 }
 
 // CreateDynamoDBClient creates a new DynamoDB client and session
-func NewDb(s *session.Session) (*DB, error) {
+func NewDb(s session.Session) (*DB, error) {
 
 	// Create a DynamoDB client
 	db := &DB{
-		Client: dynamodb.New(s),
+		Client: dynamodb.New(&s),
 	}
 	return db, nil
 }

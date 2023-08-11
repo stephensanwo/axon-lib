@@ -17,7 +17,7 @@ import (
 
 type Node struct {
 	Session axon_types.Session
-	AwsSession *aws_session.Session
+	AwsSession aws_session.Session
 }
 
 func (no *Node) GetNodes(a *axon_types.AxonContext, folder_id string, note_id string) (*[]axon_types.Node, error) {

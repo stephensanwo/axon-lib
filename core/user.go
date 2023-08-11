@@ -17,7 +17,7 @@ import (
 )
 
 type User struct {
-	AwsSession *aws_session.Session
+	AwsSession aws_session.Session
 }
 
 func (u * User)CreateUser(a *axon_types.AxonContext, token *oauth2.Token) (*axon_types.User, error) {
