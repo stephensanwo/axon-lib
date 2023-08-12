@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/aws/aws-sdk-go/aws/session"
+	aws_session "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/jsii-runtime-go"
@@ -16,11 +16,16 @@ type DB struct{
 }
 
 // CreateDynamoDBClient creates a new DynamoDB client and session
-func NewDb(s *session.Session) (*DB, error) {
+func NewDb() (*DB, error) {
+
+	// Create a new session to the AWS region
+	sess := aws_session.Must(aws_session.NewSessionWithOptions(aws_session.Options{
+		SharedConfigState: aws_session.SharedConfigEnable,
+	}))
 
 	// Create a DynamoDB client
 	db := &DB{
-		Client: dynamodb.New(s),
+		Client: dynamodb.New(sess),
 	}
 	return db, nil
 }

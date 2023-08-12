@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	aws_session "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/jsii-runtime-go"
@@ -17,13 +16,12 @@ import (
 
 type Node struct {
 	Session axon_types.Session
-	AwsSession *aws_session.Session
 }
 
 func (no *Node) GetNodes(a *axon_types.AxonContext, folder_id string, note_id string) (*[]axon_types.Node, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(no.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch nodes - " + err.Error())
 	}
@@ -48,7 +46,7 @@ func (no *Node) GetNodes(a *axon_types.AxonContext, folder_id string, note_id st
 func (no *Node) CreateNode(a *axon_types.AxonContext, userNodeData axon_types.NodeData, clientRefPosition axon_types.Position, folder_id string, note_id string) (*axon_types.Node, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(no.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not create node - " + err.Error())
 	}
@@ -100,7 +98,7 @@ func (no *Node) CreateNode(a *axon_types.AxonContext, userNodeData axon_types.No
 func (no *Node) FindNode(a *axon_types.AxonContext, folder_id string, note_id string, node_id string) (*axon_types.Node, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(no.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch node - " + err.Error())
 	}
@@ -121,7 +119,7 @@ func (no *Node) FindNode(a *axon_types.AxonContext, folder_id string, note_id st
 func (no *Node) DeleteNode(a *axon_types.AxonContext, folder_id string, note_id string, node_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(no.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not delete node - " + err.Error())
 	}
@@ -139,7 +137,7 @@ func (no *Node) DeleteNode(a *axon_types.AxonContext, folder_id string, note_id 
 func (no *Node) UpdateNode(a *axon_types.AxonContext, userNodeData axon_types.NodeData, clientRefPosition axon_types.Position, userContent axon_types.NodeContent, userStyles axon_types.NodeStyles, folder_id string, note_id string, node_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(no.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch note detail - " + err.Error())
 	}

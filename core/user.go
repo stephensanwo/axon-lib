@@ -8,7 +8,6 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 
-	aws_session "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/google/uuid"
 	axon_coredb "github.com/stephensanwo/axon-lib/coredb"
 	github "github.com/stephensanwo/axon-lib/github"
@@ -17,14 +16,13 @@ import (
 )
 
 type User struct {
-	AwsSession *aws_session.Session
 }
 
 func (u * User)CreateUser(a *axon_types.AxonContext, token *oauth2.Token) (*axon_types.User, error) {
 	ctx := context.Background()
 	
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(u.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +74,7 @@ func (u *User) GetAuthenticatedUserData(a *axon_types.AxonContext) (axon_types.S
 	userSession := axon_types.Session{}
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(u.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return userSession, errors.New("Error fetching user session" + err.Error())
 	}

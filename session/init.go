@@ -3,7 +3,6 @@ package session
 import (
 	"fmt"
 
-	aws_session "github.com/aws/aws-sdk-go/aws/session"
 	axon_coredb "github.com/stephensanwo/axon-lib/coredb"
 	axon_types "github.com/stephensanwo/axon-lib/types"
 
@@ -19,13 +18,12 @@ import (
 type SessionManager struct {
 	CookieName string
 	SessionId  string
-	AwsSession *aws_session.Session
 }
 
 
 func (s SessionManager) CreateSession(w http.ResponseWriter, a *axon_types.AxonContext, sessionData *axon_types.Session) {
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(s.AwsSession)
+	db, err := axon_coredb.NewDb()
 	
 	if err != nil {
 		log.Panicln("Error creating user session" + err.Error())

@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	aws_session "github.com/aws/aws-sdk-go/aws/session"
-
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/jsii-runtime-go"
@@ -17,13 +15,12 @@ import (
 
 type Edge struct {
 	Session axon_types.Session
-	AwsSession *aws_session.Session
 }
 
 func (e *Edge) GetEdges(a *axon_types.AxonContext, folder_id string, note_id string) (*[]axon_types.Edge, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(e.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch edges - " + err.Error())
 	}
@@ -48,7 +45,7 @@ func (e *Edge) GetEdges(a *axon_types.AxonContext, folder_id string, note_id str
 func (e *Edge) CreateEdge(a *axon_types.AxonContext, source_id string, target_id string, animated bool, label string, edge_type string, folder_id string, note_id string) (*axon_types.Edge, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(e.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not create edge - " + err.Error())
 	}
@@ -97,7 +94,7 @@ func (e *Edge) CreateEdge(a *axon_types.AxonContext, source_id string, target_id
 func (e *Edge) FindEdge(a *axon_types.AxonContext, folder_id string, note_id string, edge_id string) (*axon_types.Edge, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(e.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch edge - " + err.Error())
 	}
@@ -118,7 +115,7 @@ func (e *Edge) FindEdge(a *axon_types.AxonContext, folder_id string, note_id str
 func (e *Edge) DeleteEdge(a *axon_types.AxonContext, folder_id string, note_id string, edge_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(e.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not delete edge - " + err.Error())
 	}
@@ -137,7 +134,7 @@ func (e *Edge) DeleteEdge(a *axon_types.AxonContext, folder_id string, note_id s
 func (e *Edge) UpdateEdge(a *axon_types.AxonContext, source_id string, target_id string, animated bool, label string, edge_type string, folder_id string, note_id string, edge_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(e.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch edge detail - " + err.Error())
 	}

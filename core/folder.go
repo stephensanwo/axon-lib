@@ -6,7 +6,6 @@ import (
 	"sync"
 	"time"
 
-	aws_session "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/google/uuid"
 	axon_coredb "github.com/stephensanwo/axon-lib/coredb"
@@ -15,14 +14,13 @@ import (
 
 type Folder struct {
 	Session axon_types.Session
-	AwsSession *aws_session.Session
 }
 
 
 func (f *Folder) GetFolderList(a *axon_types.AxonContext) (*[]axon_types.FolderList, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(f.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch folders - " + err.Error())
 	}
@@ -74,7 +72,7 @@ func (f *Folder) GetFolderList(a *axon_types.AxonContext) (*[]axon_types.FolderL
 func (f *Folder) GetFolders(a *axon_types.AxonContext) (*[]axon_types.Folder, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(f.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch folders - " + err.Error())
 	}
@@ -96,7 +94,7 @@ func (f *Folder) GetFolders(a *axon_types.AxonContext) (*[]axon_types.Folder, er
 func (f *Folder) CreateFolder(a *axon_types.AxonContext, folder_name string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(f.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not create folder - " + err.Error())
 	}
@@ -124,7 +122,7 @@ func (f *Folder) CreateFolder(a *axon_types.AxonContext, folder_name string) (*s
 func (f *Folder) FindFolder(a *axon_types.AxonContext, folder_id string) (*axon_types.Folder, error) {
 	
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(f.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not find folder - " + err.Error())
 	}
@@ -146,7 +144,7 @@ func (f *Folder) FindFolder(a *axon_types.AxonContext, folder_id string) (*axon_
 func (f *Folder) DeleteFolder(a *axon_types.AxonContext, folder_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(f.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not delete folder - " + err.Error())
 	}
@@ -168,7 +166,7 @@ type FolderAttributes struct {
 func (f *Folder) UpdateFolder(a *axon_types.AxonContext, folder_name string, folder_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(f.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not update folder - " + err.Error())
 	}

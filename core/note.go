@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	aws_session "github.com/aws/aws-sdk-go/aws/session"
-
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/jsii-runtime-go"
@@ -17,14 +15,13 @@ import (
 
 type Note struct {
 	Session axon_types.Session
-		AwsSession *aws_session.Session
 }
 
 // Gets the note data by ID and all the nodes and edges associated with it
 func (n *Note) GetNoteDetail(a *axon_types.AxonContext, folder_id string, note_id string) (*axon_types.NoteDetail, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(n.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch note detail - " + err.Error())
 	}
@@ -82,7 +79,7 @@ func (n *Note) GetNoteDetail(a *axon_types.AxonContext, folder_id string, note_i
 func (n *Note) GetNotes(a *axon_types.AxonContext, folder_id string) (*[]axon_types.Note, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(n.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch note detail - " + err.Error())
 	}
@@ -108,7 +105,7 @@ func (n *Note) GetNotes(a *axon_types.AxonContext, folder_id string) (*[]axon_ty
 func (n *Note) CreateNote(a *axon_types.AxonContext, note_name string, description string, folder_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(n.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch note detail - " + err.Error())
 	}
@@ -137,7 +134,7 @@ func (n *Note) CreateNote(a *axon_types.AxonContext, note_name string, descripti
 func (n *Note) FindNote(a *axon_types.AxonContext, folder_id string, note_id string) (*axon_types.Note, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(n.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch note - " + err.Error())
 	}
@@ -158,7 +155,7 @@ func (n *Note) FindNote(a *axon_types.AxonContext, folder_id string, note_id str
 func (n *Note) DeleteNote(a *axon_types.AxonContext, folder_id string, note_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(n.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not delete note - " + err.Error())
 	}
@@ -176,7 +173,7 @@ func (n *Note) DeleteNote(a *axon_types.AxonContext, folder_id string, note_id s
 func (n *Note) UpdateNote(a *axon_types.AxonContext, name *string, description *string, folder_id string, note_id string) (*string, error) {
 
 	// Create the DynamoDB client
-	db, err := axon_coredb.NewDb(n.AwsSession)
+	db, err := axon_coredb.NewDb()
 	if err != nil {
 		return nil, errors.New("could not fetch note detail - " + err.Error())
 	}
